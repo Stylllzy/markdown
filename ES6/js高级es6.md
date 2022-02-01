@@ -81,10 +81,14 @@ const promise = new Promise(function(resolve, reject) {
   // ... some code
 
   if (/* 异步操作成功 */){
-    resolve(value);
+    resolve(value); //接收网络请求，跳转then
   } else {
-    reject(error);
+    reject(error);  /
   }
+}).then(() => {
+    //代码处理
+}).catch(err => {
+    //捕获错误
 });
 ```
 
