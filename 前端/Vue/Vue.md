@@ -1,6 +1,3 @@
-[toc]
-
-
 
 # Vue
 
@@ -65,16 +62,18 @@
 
 比如 [`created`](https://cn.vuejs.org/v2/api/#created) 钩子可以用来在一个实例被创建之后执行代码：
 
-	new Vue({
-		data: {
-			a: 1
-		},
-		created: function () {
-			// `this` 指向 vm 实例
-			console.log('a is: ' + this.a)
-		}
-	})
-	// => "a is: 1"
+```vue
+new Vue({
+	data: {
+		a: 1
+	},
+	created: function () {
+		// `this` 指向 vm 实例
+		console.log('a is: ' + this.a)
+	}
+})
+// => "a is: 1"
+```
 
 也有一些其它的钩子，在实例生命周期的不同阶段被调用，如 [`mounted`](https://cn.vuejs.org/v2/api/#mounted)、[`updated`](https://cn.vuejs.org/v2/api/#updated) 和 [`destroyed`](https://cn.vuejs.org/v2/api/#destroyed)。生命周期钩子的 `this` 上下文指向调用它的 Vue 实例
 
