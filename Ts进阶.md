@@ -42,3 +42,62 @@ handleEvent(document.getElementById('world'), 'dblclick'); // 报错，event 不
 # 元组
 
 数组合并了相同类型的对象，而元组（Tuple）合并了不同类型的对象。
+
+```typescript
+let tom: [string, number] = ['Tom', 25];
+
+// 赋值
+tom[0] = 'Tom';
+tom[1] = 25;
+
+// 当直接对元组类型的变量进行初始化或者赋值的时候，需要提供所有元组类型中指定的项
+let tom: [string, number];
+tom = ['Tom', 25];
+```
+
+
+
+# 枚举
+
+枚举（Enum）类型用于取值被限定在一定范围内的场景，比如一周只能有七天，颜色限定为红绿蓝等。
+
+```typescript
+enum Days {Sun, Mon, Tue, Wed, Thu, Fri, Sat};
+```
+
+## 常数项和计算所得项
+
+```typescript
+enum Color {Red, Green, Blue = "blue".length};
+// "blue".length 就是一个计算所得项。
+```
+
+
+
+# 类
+
+## public private 和 protected
+
+- `public` 修饰的属性或方法是公有的，可以在任何地方被访问到，默认所有的属性和方法都是 `public` 的
+- `private` 修饰的属性或方法是私有的，不能在声明它的类的外部访问
+- `protected` 修饰的属性或方法是受保护的，它和 `private` 类似，区别是它在子类中也是允许被访问的
+
+## 类的类型
+
+给类加上 TypeScript 的类型很简单，与接口类似：
+
+```typescript
+class Animal {
+  name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+  sayHi(): string {
+    return `My name is ${this.name}`;
+  }
+}
+
+let a: Animal = new Animal('Jack');
+console.log(a.sayHi()); // My name is Jack
+```
+
