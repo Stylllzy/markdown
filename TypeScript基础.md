@@ -163,9 +163,108 @@ let mySum: (x: number, y: number) => number = function (x: number, y: number): n
 
 在 TypeScript 的类型定义中，`=>` 用来表示函数的定义，左边是输入类型，需要用括号括起来，右边是输出类型。
 
+### 接口定义函数形状
+
+```typescript
+interface SearchFunc {
+    (source: string, subString: string): boolean;
+}
+
+let mySearch: SearchFunc;
+mySearch = function(source: string, subString: string) {
+    return source.search(subString) !== -1;
+}
+```
+
+对等号左侧进行类型限制
+
+### 可选参数
+
+> 解决：输入多余参数不被允许
+
+与接口中可选属性相似，？表示
+
+```typescript
+function buildName(firstName: string, lastName?: string) {
+    if (lastName) {
+        return firstName + ' ' + lastName;
+    } else {
+        return firstName;
+    }
+}
+```
+
+`可选参数必须在必需参数后面`
+
+`可选后面不允许再出现必需`
+
+### 参数默认值
+
+参数添加默认值，识别为可选参数
+
+但不受`可选参数必须在必需参数后面`的限制
+
+```typescript
+function buildName(firstName: string = 'Tom', lastName: string) {
+    return firstName + ' ' + lastName;
+}
+```
+
+### 剩余参数
+
+`...rest`，rest参数只能是最后一个参数
+
+items 为数组
+
+```typescript
+function push(array: any[], ...items: any[]) {
+    items.forEach(function(item) {
+        array.push(item);
+    });
+}
+```
+
+### 重载
+
+> 允许一个函数接受不同数量或类型的参数时，作出不同处理
 
 
 
+## 类型断言
+
+> 手动指定一个值的类型
+
+```typescript
+值 as 类型 或 <类型>值  // 一般用第一种
+```
+
+### 用途
+
+- 将一个联合类型断言为其中一个类型
+- 将一个父类断言为具体的子类 ( 类之间有继承关系时 )
+- 将任何一个类型断言为 any
+
+需要注意的是，将一个变量断言为 `any` 可以说是解决 TypeScript 中类型问题的最后一个手段。
+
+**它极有可能掩盖了真正的类型错误，所以如果不是非常确定，就不要使用 `as any`。**
+
+- 将any 断言为一个具体的类型
+
+### 类型断言的限制
+
+- 要使得 `A` 能够被断言为 `B`，只需要 `A` 兼容 `B` 或 `B` 兼容 `A` 即可
+
+### 双重断言(`一般不用`)
+
+```typescript
+as any as Foo
+```
+
+> 可以打破A,B必须兼容的限制,将任何一个类型断言为任何另一个类型
 
 
 
+> 注意:
+>
+> - 类型断言只会影响 TypeScript 编译时的类型，类型断言语句在编译结果中会被删除;所以类型断言不是类型转换，它不会真的影响到变量的类型。若要进行类型转换，需要直接调用类型转换的方法
+> - 类型声明是比类型断言更加严格
