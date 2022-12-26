@@ -149,7 +149,7 @@ net = vgg(conv_arch)
 
 ## NiN
 
-==网络中的网络==
+`网络中的网络`
 
 LeNet、AlexNet和VGG都有一个共同的设计模式：
 
@@ -855,6 +855,59 @@ BLEU定义
 - 束搜索每次搜索时保存k个最好的候选
   - k=1时，为贪心搜索
   - k=n时，为穷举搜索
+
+
+
+# 注意力机制
+
+- 卷积，全连接，池化层都只考虑不随意线索
+
+- 注意力机制则显示的考虑随意线索
+
+  - 随意线索又叫 查询（query）
+  - 每个输入是 一个值（value）和不随意线索（key）的对
+  - 通过注意力池化层来有偏向的选择某些输入
+
+  <img src="https://zh-v2.d2l.ai/_images/qkv.svg" alt="../_images/qkv.svg" style="zoom:80%;" />
+
+`小结`
+
+- 注意力机制中，通过query（随意线索）和key（不随意线索）来有偏向性的选择输入
+- Nadaraya-Watson核回归是具有注意力机制的机器学习范例。
+- Nadaraya-Watson核回归的注意力汇聚是对训练数据中输出的加权平均。从注意力的角度来看，分配给每个值的注意力权重取决于将值所对应的键和查询作为输入的函数。
+- 注意力汇聚可以分为非参数型和带参数型。
+
+## 注意力分数
+
+![image-20221222131353674](C:\Users\zzy\AppData\Roaming\Typora\typora-user-images\image-20221222131353674.png)
+
+`小结`
+
+- 注意力分数是query和key的相似度，注意力权重是分数的softmax结果
+- 两种常见的分数计算：
+  - 将query和key合并起来进入一个单输出单隐藏层的MLP
+  - 直接将query和key做内积（两者长度一致）
+
+## 自注意力
+
+**三者差别**
+
+<img src="https://zh-v2.d2l.ai/_images/cnn-rnn-self-attention.svg" alt="../_images/cnn-rnn-self-attention.svg" style="zoom:80%;" />
+
+`位置编码`
+
+- 不同与CNN，RNN，自注意力没有记录位置信息
+- 将位置信息注入到输入里
+
+`小结`
+
+- 自注意力池化层将xi当作key，val，query来对序列抽取特征
+- 完全并行，最长序列为1，但对长序列计算复杂度高
+- 位置编码在输入中加入位置信息，使自注意力能记忆位置信息 
+
+
+
+
 
 # 01-Regression
 
