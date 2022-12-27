@@ -905,7 +905,34 @@ BLEU定义
 - 完全并行，最长序列为1，但对长序列计算复杂度高
 - 位置编码在输入中加入位置信息，使自注意力能记忆位置信息 
 
+## Transformer
 
+`架构`
+
+- 基于编码器-解码器架构来处理序列对
+- 与使用注意力的seq2seq不同，Transformer是纯基于注意力
+- <img src="https://zh-v2.d2l.ai/_images/transformer.svg" alt="../_images/transformer.svg" style="zoom:67%;" />
+
+### 多头注意力
+
+- 对同一key，val，query，希望提取不同的特征
+  - 短距离关系和长距离关系
+- 多头注意力使用h个独立的注意力池化
+  - 合并各个头的输出得到最终输出
+- <img src="https://zh-v2.d2l.ai/_images/multi-head-attention.svg" alt="../_images/multi-head-attention.svg" style="zoom: 80%;" />
+
+### 基于位置的前馈网络
+
+- 将输入形状由（b,n,d）变换成（bn,d）
+- 作用两个全连接层
+- 输出形状由（bn,d）变化回（b,n,d）
+- 等价于两层核窗口为1的一维卷积层
+
+`小结`
+
+- Transformer是一个纯注意力机制的编码-解码器
+- 编码器和解码器中都有transformer块
+- 每个块里使用**多头（自）注意力**，**基于位置的前馈网络**，**层归一化**
 
 
 
