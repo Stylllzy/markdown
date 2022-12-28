@@ -934,7 +934,38 @@ BLEU定义
 - 编码器和解码器中都有transformer块
 - 每个块里使用**多头（自）注意力**，**基于位置的前馈网络**，**层归一化**
 
+## BERT
 
+`动机`
+
+- 基于微调的NLP模型
+- 预训练的模型抽取了足够多的信息
+- 新的任务只需要增加一个简单地输出层
+- <img src="https://github.com/MLNLP-World/DeepLearning-MuLi-Notes/raw/main/imgs/69/69-1.png" alt="image" style="zoom:67%;" />
+
+`架构`
+
+- 只有编码器的Transformer
+- 两个版本：
+  - Base:#blocks=12,hidden size=768,#heads=12,#parameters=110M
+  - Large:#blocks=24,hidden size=1024,#heads=16,#paramerter=340M
+- 在大规模数据上训练>3B词
+
+`预训练`
+
+- 掩蔽语言模型
+- 下一句预测
+  - 前者能够编码双向上下文来表示单词，而后者则显式地建模文本对之间的逻辑关系。
+
+`小结`
+
+- BERT针对微调设计
+- 基于Transformer的编码器做了如下修改
+  - 模型更大，训练数据更多
+  - 输入句子对，片段嵌入，可学习的位置编码
+  - 训练时使用两个任务：
+    - 带掩码的语言模型
+    - 下一个句子预测
 
 # 01-Regression
 
@@ -1859,7 +1890,7 @@ BERT是一个**transformer的Encoder**，BERT可以输入一行向量，然后�
 - 预训练：产生BERT的过程
 - 微调：利用一些特别的信息，使BERT能够完成某种任务
 
-BERT只学习了两个“填空”任务。
+  - BERT只学习了两个“填空”任务。
 
 - 一个是掩盖一些字符，然后要求它填补缺失的字符。
 - 预测两个句子是否有顺序关系。
