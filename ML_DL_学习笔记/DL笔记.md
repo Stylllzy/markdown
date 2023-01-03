@@ -967,6 +967,90 @@ BLEU定义
     - 带掩码的语言模型
     - 下一个句子预测
 
+### 微调
+
+`应用`
+
+- 句子分类
+  - 将句首的<CLS>token对应的向量输入到全连接层分类。对于一对句子也是同理，句子中间用<SEP>分开但仍只用第一个<CLS>对应的向量。
+- 命名实体识别
+  - 识别一个词元是不是命名实体，例如人名、机构、位置。
+  - 其方法是将每一个非特殊词元的向量放进全连接层分类（二分类多分类均可）。
+- 问题回答
+  - 给定一个问题和描述文字，找出一个判断作为回答。
+  - 微调方法为对片段中的每个词元预测它是不是回答的开头或结束。
+
+`小结`
+
+- 即使下游任务各有不同，使用BERT微调时均只需要增加输出层
+- 但根据任务的不同，输入的表示，和使用的BERT特征也会不一样
+
+
+
+# 优化算法
+
+`局部最小 vs 全局最小`
+
+<img src="https://github.com/MLNLP-World/DeepLearning-MuLi-Notes/raw/main/imgs/72/72-02.png" alt="image" style="zoom: 50%;" />
+
+
+
+`凸集和凸函数`
+
+- 凸集：形象化来说，就是这个集合上任意两个点连一条线，这个线在集合里面
+
+- 凸函数：形象上来说函数上任取两个点连线，函数都在该线下面
+
+- 凸优化问题：
+
+  - 如果代价函数f是凸的，且限制集合C是凸的，则为凸优化问题，**局部最小一定是全局最小**
+  - 严格凸优化问题有唯一的全局最小
+  - 凸：线性回归，softmax回归
+  - 非凸：其他（MLP,CNN,RNN,attention）
+
+- 第一组非凸，后两组凸
+
+  <img src="https://zh-v2.d2l.ai/_images/pacman.svg" alt="../_images/pacman.svg" style="zoom:67%;" />
+
+- 余弦函数为非凸的，而抛物线函数和指数函数为凸的（1，3凸，2非凸）
+
+  <img src="https://zh-v2.d2l.ai/_images/output_convexity_94e148_21_0.svg" alt="../_images/output_convexity_94e148_21_0.svg" style="zoom:67%;" />
+
+## 梯度下降
+
+- 梯度下降——最简单的迭代求解算法（SGD）
+- 随机梯度下降
+  - 求导数需要求所有样本导数，样本多的情况下代价太大
+  - 理论依据：所用样本，和随机选取一个样本得到的数学期望是一样的。
+- 小批量随机梯度下降（实际应用的）
+  - 计算原因：计算单样本的梯度难以完全利用硬件资源
+  - 采集一个随机子集
+  - 理论依据：无偏近，但降低了方差
+
+## 冲量法（动量）
+
+- 使用平滑过的梯度对权重更新，不容易震荡
+- momentum
+- <img src="https://github.com/MLNLP-World/DeepLearning-MuLi-Notes/raw/main/imgs/72/72-03.png" alt="image" style="zoom:67%;" />
+
+## Adam
+
+- 非常平滑，对于学习率不敏感
+- 对于t比较小的时候，由于$v_0=0$,所以会导致一开始值比较小，做了一个修正。
+
+- <img src="https://github.com/MLNLP-World/DeepLearning-MuLi-Notes/raw/main/imgs/72/72-04.png" alt="image" style="zoom: 50%;" />
+
+- 为什么除以$\sqrt{\widehat{s}_t}+\epsilon$？
+  - 在nlp里面常用，起到正则化的作用，控制每个维度的值在合适的大小。
+  - ![image](https://github.com/MLNLP-World/DeepLearning-MuLi-Notes/raw/main/imgs/72/72-05.png)
+
+`小结`
+
+- 深度学习模型大部分是非凸的
+- 小批量随机梯度下降是最常见的优化算法
+- 冲量是对梯度做平滑
+- Adam是对梯度做平滑，且对梯度各个维度值做重新调整，对于学习率不敏感
+
 # 01-Regression
 
 ##  Machine Learning
